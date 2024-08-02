@@ -1,0 +1,21 @@
+name: 03-client
+
+on:
+  pull_request:
+    branches:
+      - main
+  schedule:
+    - cron:  '0 9 * * 1,4'
+  workflow_dispatch:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Use Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '22.x'
+      - run: echo MNEMONIC=\"${{ secrets.TUTORIALS_TESTNET_MNEMONIC }}\" > .env
+      - run: cd 03-client/test && ./index.sh
